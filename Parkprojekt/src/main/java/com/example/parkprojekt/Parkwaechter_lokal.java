@@ -1,5 +1,7 @@
 package com.example.parkprojekt;
 
+import org.eclipse.paho.client.mqttv3.MqttException;
+
 import java.util.Arrays;
 
 public class Parkwaechter_lokal extends Parkwaechter_zentral {
@@ -12,9 +14,9 @@ public class Parkwaechter_lokal extends Parkwaechter_zentral {
     int endIndex;
 
 
-    public Parkwaechter_lokal(String Parkbucht_id, String broker_id ) {
+    public Parkwaechter_lokal(String Parkbucht_id, String broker_id ) throws MqttException {
         parkbuchtsensoren = new ParkplatzStatusSensor[400];
-        client = new mqtt_client(Parkbucht_id, String broker_id);
+        client = new mqtt_client(Parkbucht_id , broker_id);
         endIndex = 0;
 
     }
