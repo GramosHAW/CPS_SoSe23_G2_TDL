@@ -1,4 +1,4 @@
 package com.example.parkprojekt;
 
-public class Parkwaechter_zentral {
+public class Parkmanager {
 }

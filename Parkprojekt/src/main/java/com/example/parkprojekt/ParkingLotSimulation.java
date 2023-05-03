@@ -30,14 +30,15 @@ public class ParkingLotSimulation extends Application {
         parkingSpot.setStroke(Color.BLACK);
 
         // create a car rectangle
-        Rectangle car = new Rectangle(CAR_START_X, CAR_START_Y, CAR_WIDTH, CAR_HEIGHT);
+        Rectangle car = new Rectangle(200, 200, CAR_WIDTH, CAR_HEIGHT);
         car.setFill(Color.BLUE);
         car.setStroke(Color.BLACK);
 
         // create a translate transition to move the car to the parking spot
         TranslateTransition tt = new TranslateTransition(Duration.seconds(3), car);
-        tt.setByX(PARKING_SPOT_X - CAR_START_X);
-        tt.setByY(PARKING_SPOT_Y - CAR_START_Y);
+
+        tt.setToX(0);
+        tt.setToY(0);
 
         // create a root pane and add the parking spot and car to it
         StackPane root = new StackPane();
@@ -54,9 +55,5 @@ public class ParkingLotSimulation extends Application {
 
         // show the stage
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

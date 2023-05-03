@@ -4,21 +4,30 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.util.Arrays;
 
-public class Parkwaechter_lokal extends Parkwaechter_zentral {
+public class Parkwaechter_lokal extends Parkmanager {
 
 
-    enum ParkplatzStatusSensor {FREI, BELEGT, RESERVIERT};
+    enum ParkplatzStatusSensor {FREI, BELEGT};
+
 
     ParkplatzStatusSensor []parkbuchtsensoren;
+
+    static ParkplatzStatusSensor []parksensoren;
+
     mqtt_client client;
     int endIndex;
+    boolean istVoll;
+    int autoAnzahl;
+    double rabattCm;
+    double preisStunde;
 
 
     public Parkwaechter_lokal(String Parkbucht_id, String broker_id ) throws MqttException {
         parkbuchtsensoren = new ParkplatzStatusSensor[400];
         client = new mqtt_client(Parkbucht_id , broker_id);
         endIndex = 0;
-
+        istVoll = false;
+        autoAnzahl = 0;
     }
 
     public ParkplatzStatusSensor[] getParkbuchtsensoren() {
@@ -41,6 +50,9 @@ public class Parkwaechter_lokal extends Parkwaechter_zentral {
             if (parkbuchtsensoren[i] == ParkplatzStatusSensor.BELEGT) {
                 belegter_platz++;
             }
+            if (belegter_platz > 380) {
+                istVoll = true;
+            }
         }
         return belegter_platz;
     }
@@ -56,6 +68,21 @@ public class Parkwaechter_lokal extends Parkwaechter_zentral {
                 }
             }
         return Arrays.toString(freierPlatz);
+    }
+
+    public boolean genugPlatzFuerAutoIngesamt(double autolaenge) {
+        int freierPlatz = 0;
+
+        for (int i = 0; i < parkbuchtsensoren.length; i++ ) {
+            if (parkbuchtsensoren[i] == ParkplatzStatusSensor.FREI) {
+                freierPlatz++;
+                if (freierPlatz > (int) (autolaenge + 1.5)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public boolean genugPlatzFuerAuto(double autoLaenge) {
@@ -80,13 +107,19 @@ public class Parkwaechter_lokal extends Parkwaechter_zentral {
         return endIndex;
     }
 
+    public boolean IstVoll() {
+        return istVoll;
+    }
+
     public void belegeParkplatz(double autolaenge) {
+        int index = endIndex;
         int i = 0;
         while (i < ((int)autolaenge +1.5) ) {
-            parkbuchtsensoren[endIndex] = ParkplatzStatusSensor.BELEGT;
-            endIndex--;
+            parkbuchtsensoren[index] = ParkplatzStatusSensor.BELEGT;
+            index--;
             i++;
         }
+        autoAnzahl++;
     }
 
 }
