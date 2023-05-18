@@ -6,8 +6,6 @@ from datetime import datetime, timedelta
 from random import seed
 from random import randint
 
-import numpy as np
-
 
 import random
 
