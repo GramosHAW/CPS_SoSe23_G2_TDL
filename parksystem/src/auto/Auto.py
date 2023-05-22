@@ -1,24 +1,32 @@
-from random import random
+import random as rd
 
 
 class Auto:
+    liste_aller_Auto_ID = set()
     def __init__(self, id):
-        self.id = id
-        self.belegePlaetze = 0
-        self.parkpositon = []
-        self.laenge_eines_auto = [2, 4]
-        laenge = self.laenge_eines_auto(random.randint(0, 1))
-        if laenge == 2:
-            self.Model = 'Klein Auto'
-            self.belegePlaetze = 2
-        elif laenge == 4:
-            self.Model = 'Gross Auto'
-            self.Model = 4
+        # Die Topic die wir publischen
+        self.__liste_aller_topic_out = ["auto/Einparken", "auto/Ausparken",
+                                 ""]
+        # Die Topic die wir abonnieren
+        self.__liste_aller_topic_int = [""]
+        self.__id = id
+        self.__belegePlaetze = 0
+        self.__parkpositon = []
+        self.__set_eigenschaft_auto()
 
 
+    def __set_eigenschaft_auto(self):
+        self.__laenge_eines_auto = [2, 4]  # Kleines Auto hat die Länge 2 und größe Länge 4
+        self.__laenge = self.__laenge_eines_auto[rd.randint(0, 1)]
+        self.__Model = ""
+        if self.__laenge == 2:
+            self.__Model = 'Klein Auto'
+            self.__belegePlaetze = 2
+        elif self.__laenge == 4:
+            self.__Model = 'Gross Auto'
+            self.__belegePlaetze = 4
 
+    def liste_aller_Auto_IDs(self):
+        Auto.liste_aller_Auto_ID.add(self.__id)
+        return Auto.liste_aller_Auto_ID
 
-# # Beispielverwendung:
-# auto1 = Auto("ABC123", 4.5)
-# print(auto1.id)     # Ausgabe: ABC123
-# print(auto1.length) # Ausgabe: 4.5
