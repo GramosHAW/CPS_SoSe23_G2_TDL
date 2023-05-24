@@ -23,7 +23,7 @@ SEED = 42
 
 TICK_TOPIC = "chaossensor/1/data"
 
-kleines_auto = auto(3)
+
 PARKBUCHTLAENGE = 30
 parkbucht = [False] * PARKBUCHTLAENGE
 start_index = 15
@@ -58,8 +58,10 @@ def on_message_auto(client, userdata, msg):
 #     #     mqtt.stop()
 #     #     sys.exit("KeyboardInterrupt -- shutdown gracefully.")
 #     print("ausgabe Hallor es geht")
-
+autolist = []
 def pool(item):
+    autox = auto(3)
+    autolist.append(autox)
     zeit = random.randrange(1, 10)
     # logging.info(f'Thread {item}: id= {threading.getident()}')
     logging.info(f'Thread {item}: id= {threading.get_ident()}')
@@ -92,7 +94,6 @@ def main():
     #
     #
     logging.info('Threadpool Finished----------')
-
     # Erstelle einen ThreadPoolExecutor mit 3 Threads
 
 
