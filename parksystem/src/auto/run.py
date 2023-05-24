@@ -1,3 +1,4 @@
+
 import sys
 import json
 import time
@@ -11,17 +12,15 @@ import threading
 import concurrent.futures
 from concurrent.futures  import ThreadPoolExecutor
 
-import random
 
-from Auto import Auto as auto
+import random
+from Auto import Auto
 
 # -------------------------------------------------------------------------------------------------------------------
 
 
-SENSOR_TOPIC = "auto/sensorwert"
-SEED = 42
+auto1 = Auto(1)
 
-TICK_TOPIC = "chaossensor/1/data"
 
 
 PARKBUCHTLAENGE = 30
@@ -45,6 +44,13 @@ def on_message_auto(client, userdata, msg):
     data = {"payload": value, "timestamp": ts_iso}
     client.publish(SENSOR_TOPIC, json.dumps(data))
 
+auto2 = Auto(40)
+
+
+parkbucht = [False] * 2
+
+
+print("")
 
 # def main():
 #     # seed(SEED)
@@ -60,7 +66,8 @@ def on_message_auto(client, userdata, msg):
 #     print("ausgabe Hallor es geht")
 autolist = []
 def pool(item):
-    autox = auto(3)
+    autox = Auto(3)
+
     autolist.append(autox)
     zeit = random.randrange(1, 10)
     # logging.info(f'Thread {item}: id= {threading.getident()}')
@@ -81,6 +88,7 @@ def task_function(item):
 
 
 def main():
+
     logging.basicConfig(format='%(levelname)s - %(asctime)s: %(message)s', datefmt='%H:%M:%S', level=logging.DEBUG)
     logging.info('Threadpool Start')
     worker = 5
@@ -95,7 +103,6 @@ def main():
     #
     logging.info('Threadpool Finished----------')
     # Erstelle einen ThreadPoolExecutor mit 3 Threads
-
 
 
 if __name__ == '__main__':
